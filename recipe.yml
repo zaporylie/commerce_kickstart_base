@@ -1,0 +1,168 @@
+name: 'Commerce Kickstart Base'
+description: 'This recipe is a drop-in replacement for Commerce Kickstart profile'
+type: 'Commerce'
+recipes:
+  - core/recipes/basic_shortcuts
+  - core/recipes/administrator_role
+install:
+  # Commerce.
+  - address
+  - entity
+  - profile
+  - inline_entity_form
+  - state_machine
+  - commerce
+  - commerce_log
+  - commerce_checkout
+  - commerce_cart
+  - commerce_order
+  - commerce_product
+  - commerce_price
+  - commerce_store
+  - commerce_payment
+  - commerce_promotion
+  - commerce_tax
+
+  # Core
+  - node
+  - history
+  - big_pipe
+  - block
+  - breakpoint
+  - ckeditor5
+  - config
+  - comment
+  - contextual
+  - menu_link_content
+  - datetime
+  - block_content
+  - editor
+  - help
+  - image
+  - menu_ui
+  - options
+  - path
+  - dynamic_page_cache
+  - taxonomy
+  - dblog
+  - shortcut
+  - toolbar
+  - field_ui
+  - views_ui
+  - automated_cron
+
+  # Contrib
+  - admin_toolbar
+  - admin_toolbar_tools
+  - config_split
+  - facets
+  - facets_pretty_paths
+  - symfony_mailer
+  - project_browser
+  - automatic_updates
+  - automatic_updates_extensions
+  - package_manager
+
+  # Themes
+  - belgrade
+  - centarro_claro
+config:
+  strict: false
+  import:
+    address: '*'
+    entity: '*'
+    profile: '*'
+    inline_entity_form: '*'
+    state_machine: '*'
+    commerce: '*'
+    commerce_log: '*'
+    commerce_checkout: '*'
+    commerce_cart: '*'
+    commerce_order: '*'
+    commerce_product: '*'
+    commerce_price: '*'
+    commerce_store: '*'
+    commerce_payment: '*'
+    commerce_promotion: '*'
+    commerce_tax: '*'
+    node: '*'
+    history: '*'
+    big_pipe: '*'
+    block: '*'
+    breakpoint: '*'
+    ckeditor5: '*'
+    config: '*'
+    comment: '*'
+    contextual: '*'
+    menu_link_content: '*'
+    datetime: '*'
+    block_content: '*'
+    editor: '*'
+    image: '*'
+    menu_ui: '*'
+    options: '*'
+    path: '*'
+    dynamic_page_cache: '*'
+    taxonomy: '*'
+    dblog: '*'
+    shortcut: '*'
+    toolbar: '*'
+    field_ui: '*'
+    views_ui: '*'
+    admin_toolbar: '*'
+    admin_toolbar_tools: '*'
+    config_split: '*'
+    facets: '*'
+    facets_pretty_paths: '*'
+    symfony_mailer: '*'
+    belgrade: '*'
+    centarro_claro: '*'
+  actions:
+    node.settings:
+      simpleConfigUpdate:
+        use_admin_theme: true
+    system.site:
+      simpleConfigUpdate:
+        page.front: /node
+    user.settings:
+      simpleConfigUpdate:
+        verify_mail: false
+        register: visitors
+        cancel_method: user_cancel_block
+    user.role.anonymous:
+      grantPermissions:
+        - 'access content'
+        - 'access comments'
+    user.role.authenticated:
+      grantPermissions:
+        - 'access content'
+        - 'delete own files'
+        - 'access comments'
+        - 'post comments'
+        - 'skip comment approval'
+    system.theme:
+      simpleConfigUpdate:
+        admin: centarro_claro
+        default: belgrade
+    project_browser.admin_settings:
+      simpleConfigUpdate:
+        allowed_projects:
+          recipes:
+            - commerce_kickstart_demo
+            - commerce_recipe_user_roles
+            - commerce_kickstart_base
+            - commerce_kickstart_shipping
+        enabled_sources:
+          - drupalorg_jsonapi
+          - recipes
+        allow_ui_install: true
+        max_selections: 1
+    package_manager.settings:
+      simpleConfigUpdate:
+        additional_trusted_composer_plugins:
+          # This is indirectly added by `drupal/core-dev`.
+          - tbachert/spi
+          - oomphinc/composer-installers-extender
+    automatic_updates.settings:
+      simpleConfigUpdate:
+        allow_core_minor_updates: true

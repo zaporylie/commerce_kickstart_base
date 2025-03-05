@@ -1,0 +1,9 @@
+{
+    "name": "zaporylie/commerce_kickstart_base",
+    "description": "Commerce Kickstart Base is the fastest way to start building on Drupal Commerce.",
+    "type": "drupal-recipe",
+    "license": ["GPL-2.0-or-later"],
+    "require": {
+        "drupal/core": "^11"
+    }
+}
