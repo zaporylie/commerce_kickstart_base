@@ -6,11 +6,6 @@ recipes:
   - core/recipes/administrator_role
 install:
   # Commerce.
-  - address
-  - entity
-  - profile
-  - inline_entity_form
-  - state_machine
   - commerce
   - commerce_log
   - commerce_checkout
@@ -69,11 +64,6 @@ install:
 config:
   strict: false
   import:
-    address: '*'
-    entity: '*'
-    profile: '*'
-    inline_entity_form: '*'
-    state_machine: '*'
     commerce: '*'
     commerce_log: '*'
     commerce_checkout: '*'
