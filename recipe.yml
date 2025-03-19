@@ -1,24 +1,26 @@
-name: 'Commerce Kickstart Base'
-description: 'This recipe is a drop-in replacement for Commerce Kickstart profile'
+name: 'Commerce Kickstart: Base'
+description: 'Commerce Kickstart is to start building on Drupal Commerce'
 type: 'Commerce'
 recipes:
-  - core/recipes/basic_shortcuts
+  # This recipe doesn't currently use Standard recipe but only some of the recipes utilized by the Standard recipe.
+  - core/recipes/basic_block_type
+  - core/recipes/comment_base
+  - core/recipes/page_content_type
+  - core/recipes/user_picture
   - core/recipes/administrator_role
+  - core/recipes/basic_html_format_editor
+  - core/recipes/full_html_format_editor
+  - core/recipes/restricted_html_format
+  # Installation of Commerce Core and most of the modules.
+  - commerce_recipe_core
 install:
-  # Commerce.
-  - commerce
-  - commerce_log
-  - commerce_checkout
-  - commerce_cart
-  - commerce_order
-  - commerce_product
-  - commerce_price
-  - commerce_store
-  - commerce_payment
+  # Modules that were not installed by commerce_recipe_core.
   - commerce_promotion
   - commerce_tax
 
   # Core
+  - file
+  - user
   - node
   - history
   - big_pipe
@@ -47,16 +49,13 @@ install:
   - automated_cron
 
   # Contrib
+  - pathauto
   - admin_toolbar
   - admin_toolbar_tools
   - config_split
   - facets
   - facets_pretty_paths
   - symfony_mailer
-  - project_browser
-  - automatic_updates
-  - automatic_updates_extensions
-  - package_manager
 
   # Themes
   - belgrade
@@ -64,18 +63,47 @@ install:
 config:
   strict: false
   import:
-    commerce: '*'
-    commerce_log: '*'
-    commerce_checkout: '*'
-    commerce_cart: '*'
-    commerce_order: '*'
-    commerce_product: '*'
-    commerce_price: '*'
-    commerce_store: '*'
-    commerce_payment: '*'
     commerce_promotion: '*'
     commerce_tax: '*'
-    node: '*'
+    file: '*'
+    filter: '*'
+    # To avoid installing search module's optional config, list of config was composed manually.
+    user:
+      - core.entity_form_mode.user.register
+      - core.entity_view_mode.user.compact
+      - core.entity_view_mode.user.full
+      - system.action.user_block_user_action
+      - system.action.user_cancel_user_action
+      - system.action.user_unblock_user_action
+      - user.flood
+      - user.mail
+      - user.role.anonymous
+      - user.role.authenticated
+      - user.settings
+      - views.view.user_admin_people
+      - views.view.who_s_new
+      - views.view.who_s_online
+    node:
+      - core.entity_view_mode.node.full
+      - core.entity_view_mode.node.rss
+      - core.entity_view_mode.node.search_index
+      - core.entity_view_mode.node.search_result
+      - core.entity_view_mode.node.teaser
+      - field.storage.node.body
+      - node.settings
+      - system.action.node_delete_action
+      - system.action.node_make_sticky_action
+      - system.action.node_make_unsticky_action
+      - system.action.node_promote_action
+      - system.action.node_publish_action
+      - system.action.node_save_action
+      - system.action.node_unpromote_action
+      - system.action.node_unpublish_action
+      - views.view.archive
+      - views.view.content
+      - views.view.content_recent
+      - views.view.frontpage
+      - views.view.glossary
     history: '*'
     big_pipe: '*'
     block: '*'
@@ -91,7 +119,6 @@ config:
     image: '*'
     menu_ui: '*'
     options: '*'
-    path: '*'
     dynamic_page_cache: '*'
     taxonomy: '*'
     dblog: '*'
@@ -99,6 +126,7 @@ config:
     toolbar: '*'
     field_ui: '*'
     views_ui: '*'
+    pathauto: '*'
     admin_toolbar: '*'
     admin_toolbar_tools: '*'
     config_split: '*'
@@ -107,6 +135,7 @@ config:
     symfony_mailer: '*'
     belgrade: '*'
     centarro_claro: '*'
+    claro: '*'
   actions:
     node.settings:
       simpleConfigUpdate:
@@ -132,27 +161,5 @@ config:
         - 'skip comment approval'
     system.theme:
       simpleConfigUpdate:
-        admin: centarro_claro
         default: belgrade
-    project_browser.admin_settings:
-      simpleConfigUpdate:
-        allowed_projects:
-          recipes:
-            - commerce_kickstart_demo
-            - commerce_recipe_user_roles
-            - commerce_kickstart_base
-            - commerce_kickstart_shipping
-        enabled_sources:
-          - drupalorg_jsonapi
-          - recipes
-        allow_ui_install: true
-        max_selections: 1
-    package_manager.settings:
-      simpleConfigUpdate:
-        additional_trusted_composer_plugins:
-          # This is indirectly added by `drupal/core-dev`.
-          - tbachert/spi
-          - oomphinc/composer-installers-extender
-    automatic_updates.settings:
-      simpleConfigUpdate:
-        allow_core_minor_updates: true
+        admin: centarro_claro
